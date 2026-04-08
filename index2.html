@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISMAF - Remaja Islam Masjid Al-Falah</title>
+    <!-- Google Fonts: Fredoka untuk kesan lucu & Quicksand untuk kemudahan baca -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --hijau-pastel: #E8F5E9;
+            --pink-pastel: #FCE4EC;
+            --emas: #FFD700;
+            --emas-hover: #F0C800;
+            --putih: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--putih);
+            margin: 0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .font-ceria { font-family: 'Fredoka', sans-serif; }
+
+        /* Animasi Tombol */
+        .btn-interact {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-interact:hover {
+            transform: scale(1.08) translateY(-3px);
+            filter: brightness(1.05);
+        }
+        .btn-interact:active {
+            transform: scale(0.95);
+        }
+
+        /* Navigasi Horizontal Scroll */
+        .nav-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+
+        /* Banner & Logo Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        .animate-logo { animation: float 4s ease-in-out infinite; }
+
+        /* Page System */
+        .page { display: none; }
+        .page.active { display: block; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Org Chart Styling */
+        .org-container { display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 40px 20px; min-width: 1300px; }
+        .org-row { display: flex; justify-content: center; gap: 15px; width: 100%; position: relative; }
+        .org-card {
+            background: white;
+            border: 3px solid var(--hijau-pastel);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            width: 200px;
+            position: relative;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .org-card:hover { border-color: var(--emas); transform: translateY(-5px); }
+        .wa-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #25D366;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-decoration: none;
+        }
+
+        /* Documentation Slideshow */
+        .doc-box { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .doc-slide { 
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
+            opacity: 0; transition: opacity 1.5s ease-in-out;
+        }
+        .doc-slide.active { opacity: 1; }
+        .doc-label {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 10px;
+            background: rgba(0,0,0,0.65); color: white; text-align: center; font-size: 12px; font-weight: bold;
+        }
+
+        /* Gold Button Pulse */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+        .btn-pulse { animation: pulse-gold 2s infinite; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="bg-white px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-[100] shadow-sm">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Logo RISMAF" class="h-14 md:h-16">
+            <div>
+                <h1 class="font-ceria font-bold text-xl text-emerald-600 leading-tight">RISMAF</h1>
+                <p class="text-[10px] md:text-xs font-bold text-gray-400">Bambu Apus</p>
+            </div>
+        </div>
+        
+        <div class="flex flex-col items-end gap-2">
+            <div id="realtime-clock" class="text-[10px] md:text-sm font-bold bg-emerald-50 text-emerald-700 px-4 py-1.5 rounded-full border-2 border-emerald-100 shadow-inner">
+                Memuat Waktu...
+            </div>
+            <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="bg-emerald-500 text-white text-[10px] md:text-xs px-5 py-2 rounded-full font-black btn-interact uppercase shadow-md">daftar disini</a>
+        </div>
+    </header>
+
+    <!-- MENU UTAMA HORIZONTAL -->
+    <nav class="bg-white border-b border-gray-100 nav-scroll sticky top-[76px] md:top-[92px] z-[90]">
+        <div class="flex items-center gap-2 p-4 min-w-max md:justify-center">
+            <button onclick="changePage('home')" class="nav-btn active bg-emerald-500 text-white px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="home">Beranda</button>
+            <button onclick="changePage('profil')" class="nav-btn bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="profil">Profil</button>
+            <button onclick="changePage('struktur')" class="nav-btn bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="struktur">Struktur</button>
+            <button onclick="changePage('pengumuman')" class="nav-btn bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="pengumuman">Pengumuman</button>
+            <button onclick="changePage('kegiatan')" class="nav-btn bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="kegiatan">Kegiatan</button>
+            <button onclick="changePage('donasi')" class="nav-btn bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact" data-page="donasi">Donasi & Infaq</button>
+            <a href="https://drive.google.com/file/d/1mgYQ7bafYWiIDGSYM6Z3bMtnk0p8SdRO/view?usp=drive_link" target="_blank" class="bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact">AD/ART</a>
+            <a href="https://sites.google.com/view/adr-rismaf/based" target="_blank" class="bg-emerald-50 text-emerald-700 px-6 py-2.5 rounded-2xl font-ceria text-sm btn-interact">Adab Dan Resolusi</a>
+        </div>
+    </nav>
+
+    <!-- PAGE: BERANDA -->
+    <main id="page-home" class="page active">
+        <!-- Banner Beranda -->
+        <section class="bg-[#E8F5E9] p-8 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative">
+            <div class="z-10 text-center md:text-left">
+                <div class="inline-block bg-[#FFD700] text-emerald-900 font-bold px-6 py-2 rounded-full mb-8 text-sm uppercase tracking-widest shadow-sm">Periode Dakwah 2026</div>
+                <h2 class="font-ceria text-4xl md:text-7xl font-bold text-emerald-800 leading-tight mb-6 uppercase">MUDA, TAQWA,<br>PENUH KARYA</h2>
+                <p class="text-sm md:text-xl font-medium text-emerald-700 max-w-xl mb-10 leading-relaxed">Wadah kreatifitas dan perjuangan dakwah pemuda-pemudi di lingkungan Masjid Al-Falah Bambu Apus.</p>
+                
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-5">
+                    <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="bg-[#FFD700] text-emerald-900 px-10 py-5 rounded-[30px] font-black text-xl btn-interact btn-pulse shadow-lg border-b-4 border-yellow-600">DAFTAR DISINI</a>
+                    <div class="flex gap-3">
+                        <a href="https://wa.me/6285183134940" target="_blank" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-green-500 text-2xl btn-interact shadow-md"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-pink-500 text-2xl btn-interact shadow-md"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:rismafbambuapus@gmail.com" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-blue-500 text-2xl btn-interact shadow-md"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="animate-logo">
+                <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf Animation" class="w-72 md:w-[450px] drop-shadow-2xl">
+            </div>
+        </section>
+
+        <!-- Home Content Highlights -->
+        <section class="p-8 md:p-20 max-w-7xl mx-auto space-y-24">
+            <!-- Documentation Grid 2x2 -->
+            <div>
+                <div class="text-center mb-12">
+                    <h3 class="font-ceria text-3xl text-emerald-800 uppercase tracking-widest">Dokumentasi Kegiatan</h3>
+                    <div class="w-24 h-1.5 bg-yellow-400 mx-auto mt-3 rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- VR 1447H -->
+                    <div class="doc-box" id="slide-vr">
+                        <img src="https://i.ibb.co.com/BKq3X98G/VR-1447H.jpg" class="doc-slide active">
+                        <img src="https://i.ibb.co.com/0RyvDk7k/IMG-20260228-WA0024.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/qL7tkv56/IMG-20260301-WA0055.jpg" class="doc-slide">
+                        <div class="doc-label">Volunteer Ramadhan 1447H</div>
+                    </div>
+                    <!-- Sanlat -->
+                    <div class="doc-box" id="slide-sanlat">
+                        <img src="https://i.ibb.co.com/SwxS3fdD/IMG-20260301-WA0058.jpg" class="doc-slide active">
+                        <img src="https://i.ibb.co.com/5h3XtngG/IMG-20260228-WA0014.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/Xf5YJxzh/IMG-20260228-WA0015.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/67rgc03Y/IMG-20260228-WA0019.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/DDRwbJGD/IMG-20260228-WA0022.jpg" class="doc-slide">
+                        <div class="doc-label">Sanlat RISMAF 1447H</div>
+                    </div>
+                    <!-- Minisoccer -->
+                    <div class="doc-box" id="slide-soccer">
+                        <img src="https://i.ibb.co.com/SwxS3fdD/IMG-20260301-WA0058.jpg" class="doc-slide active">
+                        <img src="https://i.ibb.co.com/5h3XtngG/IMG-20260228-WA0014.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/Xf5YJxzh/IMG-20260228-WA0015.jpg" class="doc-slide">
+                        <div class="doc-label">Minisoccer RISMAF</div>
+                    </div>
+                    <!-- Sumur Bor -->
+                    <div class="doc-box" id="slide-bor">
+                        <img src="https://i.ibb.co.com/SwxS3fdD/IMG-20260301-WA0058.jpg" class="doc-slide active">
+                        <img src="https://i.ibb.co.com/5h3XtngG/IMG-20260228-WA0014.jpg" class="doc-slide">
+                        <img src="https://i.ibb.co.com/Xf5YJxzh/IMG-20260228-WA0015.jpg" class="doc-slide">
+                        <div class="doc-label">Pengadaan Sumur Bor</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visi & Profil Highlight -->
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-pink-50 p-10 rounded-[40px] border-2 border-pink-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-100 rounded-full opacity-50"></div>
+                    <h4 class="font-ceria text-2xl text-pink-700 mb-6 italic">Visi RISMAF</h4>
+                    <p class="font-bold text-gray-700 text-lg leading-relaxed italic">"Terwujudnya generasi muda Masjid Al-Falah yang unggul dalam IMTAQ, cerdas dalam IPTEK, dan aktif dalam menebar manfaat bagi banyak orang."</p>
+                </div>
+                <div class="bg-emerald-50 p-10 rounded-[40px] border-2 border-emerald-100 shadow-sm">
+                    <h4 class="font-ceria text-2xl text-emerald-700 mb-6">Syarat Anggota</h4>
+                    <ul class="space-y-4 text-sm font-bold text-gray-600">
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Muslim/Muslimah (15-30 Tahun)</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Domisili Jakarta Timur & Sekitarnya</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Mematuhi AD/ART Masjid Al-Falah</li>
+                    </ul>
+                    <button onclick="changePage('profil')" class="mt-8 w-full bg-emerald-500 text-white py-3 rounded-2xl font-black text-xs uppercase btn-interact">Baca Profil Selengkapnya</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE: PROFIL -->
+    <div id="page-profil" class="page p-10 md:p-20 max-w-5xl mx-auto space-y-16">
+        <div class="text-center">
+            <h2 class="font-ceria text-4xl text-emerald-800 uppercase tracking-widest">Profil Organisasi</h2>
+            <div class="w-16 h-1 bg-yellow-400 mx-auto mt-4 rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="space-y-8">
+                <div class="bg-emerald-50 p-10 rounded-[40px]">
+                    <h3 class="font-ceria text-2xl text-emerald-700 mb-4">Sejarah</h3>
+                    <p class="text-gray-700 leading-relaxed font-medium">RISMAF adalah wadah perjuangan dakwah pemuda-pemudi di lingkungan Masjid Besar Al-Falah Bambu Apus, Jakarta Timur. Berdiri dengan semangat kemandirian dan kreativitas untuk mencetak generasi Rabbani di era digital.</p>
+                </div>
+                <div class="bg-pink-50 p-10 rounded-[40px]">
+                    <h3 class="font-ceria text-2xl text-pink-700 mb-4">Visi</h3>
+                    <p class="text-gray-700 font-bold italic">"Terwujudnya generasi muda Masjid Al-Falah yang unggul dalam IMTAQ, cerdas dalam IPTEK, dan aktif dalam menebar manfaat bagi banyak orang."</p>
+                </div>
+            </div>
+            <div class="bg-yellow-50 p-10 rounded-[40px] border-3 border-yellow-100">
+                <h3 class="font-ceria text-2xl text-yellow-700 mb-6">Misi Kami</h3>
+                <ul class="space-y-6">
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">1</div>
+                        <p class="text-xs font-bold text-gray-600">Kajian keislaman inovatif, menarik, dan relevan bagi remaja.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">2</div>
+                        <p class="text-xs font-bold text-gray-600">Literasi digital dan teknologi sebagai sarana dakwah positif.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">3</div>
+                        <p class="text-xs font-bold text-gray-600">Menumbuhkan jiwa entrepreneurship dan unit usaha kreatif.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">4</div>
+                        <p class="text-xs font-bold text-gray-600">Wadah minat olahraga dan seni untuk ukhuwah islamiyah.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">5</div>
+                        <p class="text-xs font-bold text-gray-600">Gerakan sosial kemanusiaan berdampak bagi masyarakat.</p>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">6</div>
+                        <p class="text-xs font-bold text-gray-600">Mencetak pemimpin masa depan berlandaskan nilai Islam.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: STRUKTUR -->
+    <div id="page-struktur" class="page bg-gray-50 overflow-x-auto">
+        <div class="p-10 text-center sticky left-0">
+            <h2 class="font-ceria text-3xl text-emerald-800 uppercase tracking-widest">Struktur Organisasi RISMAF 2026</h2>
+            <p class="text-gray-400 font-bold text-xs mt-2 italic">*Geser horizontal untuk melihat bagan lengkap</p>
+        </div>
+        
+        <div class="org-container">
+            <!-- Layer 1 -->
+            <div class="org-row">
+                <div class="org-card bg-emerald-50 border-emerald-200">
+                    <p class="text-[10px] font-black text-emerald-600 uppercase">Pembina Ikhwan</p>
+                </div>
+                <div class="org-card bg-yellow-100 border-yellow-400">
+                    <p class="text-[10px] font-black text-yellow-700 uppercase">Dewan Syuro</p>
+                </div>
+                <div class="org-card bg-pink-50 border-pink-200">
+                    <p class="text-[10px] font-black text-pink-600 uppercase">Pembina Akhwat</p>
+                </div>
+            </div>
+
+            <!-- Layer 2 -->
+            <div class="org-row">
+                <div class="org-card bg-emerald-600 text-white w-[250px] border-emerald-400">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[10px] font-bold opacity-80 uppercase mb-1">Ketua Umum</p>
+                    <p class="text-lg font-black tracking-wide">Ramadhan Rizki</p>
+                </div>
+            </div>
+
+            <!-- Layer 3 -->
+            <div class="org-row gap-40">
+                <div class="org-card">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Sekretaris Jendral</p>
+                    <p class="text-sm font-bold">Ganendra</p>
+                </div>
+                <div class="org-card border-pink-300">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[10px] font-bold text-pink-400 uppercase mb-1">Koordinator Akhwat</p>
+                    <p class="text-sm font-bold">Wahida</p>
+                </div>
+            </div>
+
+            <!-- Layer 4 -->            
+            <div class="flex gap-4">
+                <div class="flex gap-4 mr-20">
+                    <div class="org-card">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Sekretaris Umum</p>
+                        <p class="text-sm font-bold text-emerald-700 leading-tight">Reza</p>
+                    </div>
+                    <div class="org-card">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Bendahara Umum</p>
+                        <p class="text-xs font-bold text-emerald-700 leading-tight">Dara & Haya</p>
+                    </div>
+                </div>
+                <div class="org-card border-pink-100 bg-pink-50/30 flex items-center justify-center">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <div>
+                        <p class="text-[10px] font-bold text-pink-300 uppercase mb-1">Wakil Koord Akhwat</p>
+                        <p class="text-sm font-bold">Mutiara</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer 5 (Humas Center) -->
+            <div class="org-card bg-yellow-50 border-yellow-300 w-80">
+                <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                <p class="text-[10px] font-bold text-yellow-600 uppercase mb-1">Humas</p>
+                <p class="text-sm font-black">Zalfa & Jamhur</p>
+            </div>
+
+            <!-- Layer 6 - Divisi -->
+            <div class="flex flex-nowrap gap-4 pb-10">
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Sosial Masyarakat</p>
+                    <p class="text-xs font-bold text-emerald-800">Faizal & Kalila</p>
+                </div>
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Media Kreatif</p>
+                    <p class="text-xs font-bold text-emerald-800">Khoirunnisa</p>
+                </div>
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Olahraga</p>
+                    <p class="text-xs font-bold text-emerald-800">Zahra</p>
+                </div>
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Logistik</p>
+                    <p class="text-xs font-bold text-emerald-800">Danu</p>
+                </div>
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Siar Dakwah</p>
+                    <p class="text-xs font-bold text-emerald-800">Rava</p>
+                </div>
+                <div class="org-card w-[170px]">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-badge"><i class="fab fa-whatsapp"></i></a>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-1">Fundraising</p>
+                    <p class="text-xs font-bold text-emerald-800">Fulan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: PENGUMUMAN -->
+    <div id="page-pengumuman" class="page p-10 md:p-20 max-w-4xl mx-auto space-y-10">
+        <h2 class="font-ceria text-4xl text-center text-emerald-800 mb-12">PENGUMUMAN TERBARU</h2>
+        
+        <div class="space-y-6">
+            <!-- Olahraga -->
+            <div class="bg-white p-8 rounded-[35px] border-4 border-emerald-50 flex flex-col md:flex-row items-center justify-between gap-6 btn-interact shadow-sm">
+                <div class="text-center md:text-left">
+                    <span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Olahraga</span>
+                    <h4 class="font-bold text-xl mt-3">Minisoccer RISMAF</h4>
+                    <p class="text-gray-400 text-xs mt-1">Setiap Kamis Pukul 20.00 - 22.00 WIB</p>
+                </div>
+                <button onclick="openModal('Minisoccer', 'Kegiatan olahraga rutin setiap malam jumat untuk mempererat ukhuwah antar pemuda di lingkungan Masjid Al-Falah. Terbuka untuk seluruh anggota RISMAF.')" class="bg-emerald-500 text-white px-8 py-3 rounded-2xl font-black text-xs btn-interact uppercase shadow-md">Detail</button>
+            </div>
+            <!-- Halaqoh -->
+            <div class="bg-white p-8 rounded-[35px] border-4 border-pink-50 flex flex-col md:flex-row items-center justify-between gap-6 btn-interact shadow-sm">
+                <div class="text-center md:text-left">
+                    <span class="bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Kemuslimatan</span>
+                    <h4 class="font-bold text-xl mt-3">Halaqoh Akhwat</h4>
+                    <p class="text-gray-400 text-xs mt-1">Setiap Sabtu Pukul 16.00 - 17.30 WIB</p>
+                </div>
+                <button onclick="openModal('Halaqoh Akhwat', 'Kajian rutin khusus akhwat membahas adab dan fikih praktis wanita muslimah masa kini. Tempat di ruang akhwat Masjid Al-Falah.')" class="bg-pink-400 text-white px-8 py-3 rounded-2xl font-black text-xs btn-interact uppercase shadow-md">Detail</button>
+            </div>
+            <!-- Tahsin -->
+            <div class="bg-white p-8 rounded-[35px] border-4 border-pink-50 flex flex-col md:flex-row items-center justify-between gap-6 btn-interact shadow-sm">
+                <div class="text-center md:text-left">
+                    <span class="bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Kemuslimatan</span>
+                    <h4 class="font-bold text-xl mt-3">Tahsin Akhwat RISMAF</h4>
+                    <p class="text-gray-400 text-xs mt-1">Setiap Sabtu Pukul 17.30 - Maghrib</p>
+                </div>
+                <button onclick="openModal('Tahsin Akhwat', 'Bimbingan perbaikan bacaan Al-Quran sesuai makhraj dan tajwid yang benar. Dibimbing oleh ustadzah berpengalaman.')" class="bg-pink-400 text-white px-8 py-3 rounded-2xl font-black text-xs btn-interact uppercase shadow-md">Detail</button>
+            </div>
+            <!-- Qiyamulail -->
+            <div class="bg-white p-8 rounded-[35px] border-4 border-blue-50 flex flex-col md:flex-row items-center justify-between gap-6 btn-interact shadow-sm">
+                <div class="text-center md:text-left">
+                    <span class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Kemuslimatan</span>
+                    <h4 class="font-bold text-xl mt-3">Qiyamulail Bersama</h4>
+                    <p class="text-gray-400 text-xs mt-1">Setiap Malam Ahad</p>
+                </div>
+                <button onclick="openModal('Qiyamulail', 'Shalat malam berjamaah, muhasabah, dan doa bersama untuk kemenangan dakwah Islam di lingkungan Masjid Al-Falah.')" class="bg-blue-500 text-white px-8 py-3 rounded-2xl font-black text-xs btn-interact uppercase shadow-md">Detail</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: DONASI -->
+    <div id="page-donasi" class="page p-10 md:p-20 max-w-2xl mx-auto">
+        <div class="bg-white border-4 border-emerald-50 rounded-[60px] p-12 text-center shadow-xl">
+            <h2 class="font-ceria text-3xl text-emerald-800 mb-8 uppercase">INFO DONASI & INFAQ</h2>
+            <div class="bg-emerald-50 p-8 rounded-[40px] mb-8 relative">
+                <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a0/Bank_Syariah_Indonesia_logo.svg/2560px-Bank_Syariah_Indonesia_logo.svg.png" alt="BSI Logo" class="h-10 mx-auto mb-4 grayscale opacity-70">
+                <p class="text-[10px] font-black text-emerald-600 uppercase mb-2">Bank Syariah Indonesia (BSI)</p>
+                <p class="text-2xl font-black text-emerald-900 tracking-wider">7777 999 208</p>
+                <p class="text-xs font-bold text-gray-500 mt-2">A.n Remaja Islam Masjid Al-Falah</p>
+            </div>
+            
+            <div class="bg-yellow-50 p-6 rounded-3xl text-[10px] font-bold text-gray-600 mb-10 border border-yellow-100">
+                <p class="text-yellow-700 mb-2 font-black uppercase italic"><i class="fas fa-info-circle mr-2"></i> Kode Unik Transfer</p>
+                <p>Gunakan angka unik di akhir nominal:</p>
+                <p class="mt-1">005 untuk Infaq (Cth: Rp 100.005)</p>
+                <p>015 untuk Donasi (Cth: Rp 100.015)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="https://forms.gle/oYFvntMJjXdVMHep8" target="_blank" class="bg-emerald-500 text-white py-4 rounded-3xl font-black text-xs uppercase btn-interact shadow-lg">Konfirmasi Transfer</a>
+                <a href="https://wa.me/6285183134940" target="_blank" class="bg-white border-2 border-emerald-500 text-emerald-500 py-4 rounded-3xl font-black text-xs uppercase btn-interact">Hubungi Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-emerald-900 text-white p-10 md:p-20 mt-24 rounded-t-[60px]">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+            <!-- Logo & Nav -->
+            <div class="space-y-8">
+                <div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="RISMAF White" class="h-20 w-20">
+                        <h3 class="font-ceria text-[30px] font-bold">RISMAF</h3>
+                    </div>
+                    <p class="text-xs opacity-60 leading-relaxed font-bold italic">"Menciptakan generasi muda yang mencintai masjid dan menginspirasi dunia."</p>
+                </div>
+                <div>
+                    <h4 class="text-yellow-400 font-black text-sm mb-4 tracking-widest uppercase">Navigasi Cepat</h4>
+                    <ul class="text-[11px] space-y-3 opacity-70 font-bold">
+                        <li class="cursor-pointer hover:text-yellow-400" onclick="changePage('profil')">> Visi & Misi</li>
+                        <li class="cursor-pointer hover:text-yellow-400" onclick="changePage('pengumuman')">> Jadwal Kajian</li>
+                        <li class="cursor-pointer hover:text-yellow-400" onclick="changePage('struktur')">> Kepengurusan</li>
+                        <li class="cursor-pointer hover:text-yellow-400" onclick="changePage('home')">> Syarat Anggota</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Lokasi & Kontak -->
+            <div class="space-y-8">
+                <h4 class="font-ceria text-lg text-yellow-400 uppercase tracking-widest">LOKASI & KONTAK</h4>
+                <div class="space-y-6 text-[11px] font-bold opacity-80">
+                    <a href="https://maps.app.goo.gl/bmw8xQ4jXtUn8rySA" target="_blank" class="flex gap-4 hover:text-yellow-300 transition-colors">
+                        <i class="fas fa-map-marker-alt text-lg"></i>
+                        <span>Jl. Bambu Apus Raya No.55, RT.1/RW.4, Ceger, Jakarta Timur, 13890</span>
+                    </a>
+                    <a href="https://masjid-alfalah.id" target="_blank" class="flex items-center gap-4 hover:text-yellow-300 transition-colors">
+                        <i class="fas fa-globe text-lg"></i> masjid-alfalah.id
+                    </a>
+                    <a href="https://instagram.com/alfalah_bambuapus" target="_blank" class="flex items-center gap-4 hover:text-yellow-300 transition-colors">
+                        <i class="fab fa-instagram text-lg text-pink-400"></i> alfalah_bambuapus
+                    </a>
+                    <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="flex items-center gap-4 hover:text-yellow-300 transition-colors">
+                        <i class="fab fa-instagram text-lg text-pink-400"></i> rismaf_bambuapus
+                    </a>
+                    <a href="https://wa.me/6285183134940" target="_blank" class="flex items-center gap-4 hover:text-yellow-300 transition-colors">
+                        <i class="fab fa-whatsapp text-lg text-green-400"></i> Hubungi Admin
+                    </a>
+                </div>
+            </div>
+
+            <!-- Saran -->
+            <div class="bg-emerald-800/50 p-10 rounded-[50px] border border-emerald-700/50 text-center">
+                <h4 class="font-ceria text-lg text-yellow-400 mb-4 uppercase">KOTAK SARAN</h4>
+                <p class="text-[10px] opacity-70 mb-8 font-bold leading-loose">Berikan masukan berhargamu untuk kemajuan dakwah RISMAF.</p>
+                <a href="https://forms.gle/Fk5yVgtxiPqDqAUaA" target="_blank" class="bg-[#FFD700] text-emerald-900 px-10 py-4 rounded-2xl font-black text-xs btn-interact inline-block shadow-lg">KLIK DISINI</a>
+            </div>
+        </div>
+        <div class="mt-20 text-center pt-8 border-t border-emerald-800 opacity-30 text-[9px] font-black tracking-[0.3em] uppercase">
+            &copy; 2026 Remaja Islam Masjid Al-Falah | Bambu Apus
+        </div>
+    </footer>
+
+    <!-- MODAL DETAIL -->
+    <div id="info-modal" class="fixed inset-0 bg-black/60 z-[1000] hidden items-center justify-center p-6 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-[50px] p-10 relative animate-slideIn shadow-2xl border-4 border-emerald-50">
+            <h3 id="modal-title" class="font-ceria text-3xl text-emerald-800 mb-3">Detail Info</h3>
+            <div class="w-16 h-1.5 bg-yellow-400 rounded-full mb-8"></div>
+            <p id="modal-content" class="text-sm text-gray-600 leading-relaxed font-bold mb-10 italic"></p>
+            <button onclick="closeModal()" class="w-full bg-emerald-500 text-white py-4 rounded-3xl font-black text-xs uppercase btn-interact shadow-lg">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. JAM REAL-TIME (WIB)
+        function updateClock() {
+            const now = new Date();
+            const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+            const dayName = days[now.getDay()];
+            
+            const dateStr = now.toLocaleDateString('id-ID', {
+                day: '2-digit', month: '2-digit', year: 'numeric'
+            }).replace(/\//g, ':');
+            
+            const timeStr = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            });
+
+            document.getElementById('realtime-clock').textContent = `${dayName}, ${dateStr} | ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 2. SISTEM NAVIGASI HALAMAN
+        function changePage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if(target) target.classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-500', 'text-white');
+                btn.classList.add('bg-emerald-50', 'text-emerald-700');
+            });
+            const activeBtn = document.querySelector(`button[data-page="${pageId}"]`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-emerald-50', 'text-emerald-700');
+                activeBtn.classList.add('bg-emerald-500', 'text-white');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 3. SLIDESHOW OTOMATIS
+        function setupSlideshow(containerId) {
+            const container = document.getElementById(containerId);
+            const slides = container.querySelectorAll('.doc-slide');
+            let current = 0;
+
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 3000 + Math.random() * 1000);
+        }
+
+        // Jalankan Slideshow
+        window.onload = () => {
+            setupSlideshow('slide-vr');
+            setupSlideshow('slide-sanlat');
+            setupSlideshow('slide-soccer');
+            setupSlideshow('slide-bor');
+        };
+
+        // 4. MODAL SYSTEM
+        function openModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').textContent = content;
+            document.getElementById('info-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('info-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('info-modal');
+            if (event.target == modal) closeModal();
+        }
+    </script>
+</body>
+</html>
