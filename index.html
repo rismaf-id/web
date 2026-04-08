@@ -6,7 +6,6 @@
     <title>RISMAF - Remaja Islam Masjid Al-Falah</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome untuk Icon WA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -14,122 +13,123 @@
             --primary: #10b981;
             --secondary: #fbbf24;
             --accent: #f43f5e;
-            --bg-light: #f0fdf4;
+            --bg-soft: #f0fdf4;
         }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #ffffff;
+            background-color: #fafafa;
             color: #334155;
             margin: 0;
-            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         .font-lucu { font-family: 'Fredoka', sans-serif; }
 
         /* Navigasi Horizontal Scroll */
-        .nav-container {
+        .nav-scroll {
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .nav-container::-webkit-scrollbar { display: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
 
-        /* Animasi Pop & Hover */
+        /* Animasi */
         .hover-pop {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .hover-pop:hover {
             transform: scale(1.05) translateY(-5px);
+            filter: brightness(1.1);
         }
-        .hover-pop:active {
-            transform: scale(0.95);
-        }
+        .hover-pop:active { transform: scale(0.95); }
 
-        .logo-shadow {
-            filter: drop-shadow(0 10px 15px rgba(16, 185, 129, 0.4));
-            animation: float 3s ease-in-out infinite;
+        .logo-berbayang {
+            filter: drop-shadow(0 15px 20px rgba(16, 185, 129, 0.4));
+            animation: float 4s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
-        /* Struktur Organisasi Tree */
-        .org-box {
+        /* Struktur Organisasi */
+        .org-card {
             background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 1.25rem;
+            border: 2px solid #f1f5f9;
+            border-radius: 1.5rem;
             padding: 1rem;
             text-align: center;
             position: relative;
-            min-width: 160px;
+            min-width: 150px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
-        .org-box:hover { border-color: var(--primary); }
+        .org-card:hover { border-color: var(--primary); transform: translateY(-3px); }
         
-        .wa-btn-corner {
+        .wa-corner {
             position: absolute;
-            top: -8px;
-            right: -8px;
+            top: -10px;
+            right: -10px;
             background: #25d366;
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
-            border: 2px solid white;
+            border: 3px solid white;
             z-index: 10;
         }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; animation: slideIn 0.5s ease-out; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #451a03;
+        .gradient-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
         }
 
-        /* Responsive Tree Line */
-        .tree-line { width: 2px; background: #e2e8f0; height: 30px; margin: 0 auto; }
+        .tree-connector { width: 2px; background: #e2e8f0; height: 25px; margin: 0 auto; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body>
 
-    <!-- Navbar & Real-time Clock -->
-    <header class="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showTab('beranda')">
-                <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf" class="w-10 h-10 object-contain">
-                <span class="font-lucu font-bold text-emerald-600 text-xl tracking-tight">RISMAF</span>
+    <!-- Header & Clock -->
+    <header class="sticky top-0 z-[100] bg-white/80 backdrop-blur-lg border-b border-emerald-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showTab('beranda')">
+                <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf" class="w-12 h-12 object-contain">
+                <div>
+                    <h1 class="font-lucu font-bold text-emerald-600 text-2xl leading-none">RISMAF</h1>
+                    <p class="text-[8px] font-bold text-amber-500 tracking-[0.2em] uppercase">Masjid Al-Falah</p>
+                </div>
             </div>
-            <div id="clock" class="bg-emerald-50 px-4 py-1.5 rounded-full text-[10px] font-bold text-emerald-700 border border-emerald-100 shadow-inner">
+            
+            <div id="realtime-clock" class="bg-emerald-600 text-white px-5 py-2 rounded-2xl text-[11px] font-bold shadow-lg shadow-emerald-200">
                 Memuat Waktu...
             </div>
         </div>
 
-        <!-- Menu Utama Horizontal Scroll -->
-        <nav class="nav-container bg-white px-4 py-2 border-t border-slate-50">
-            <div class="flex gap-2 max-w-6xl mx-auto items-center">
-                <button onclick="showTab('beranda')" class="tab-btn bg-emerald-500 text-white px-6 py-2 rounded-xl text-xs font-bold hover-pop shadow-md" data-tab="beranda">Beranda</button>
-                <button onclick="showTab('profil')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-xl text-xs font-bold hover-pop border" data-tab="profil">Profil</button>
-                <button onclick="showTab('struktur')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-xl text-xs font-bold hover-pop border" data-tab="struktur">Struktur</button>
-                <button onclick="showTab('pengumuman')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-xl text-xs font-bold hover-pop border" data-tab="pengumuman">Pengumuman</button>
-                <button onclick="showTab('donasi')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-xl text-xs font-bold hover-pop border" data-tab="donasi">Donasi</button>
-                <a href="https://drive.google.com/file/d/1mgYQ7bafYWiIDGSYM6Z3bMtnk0p8SdRO/view?usp=drive_link" target="_blank" class="bg-amber-100 text-amber-700 px-6 py-2 rounded-xl text-xs font-bold hover-pop">AD/ART</a>
-                <a href="https://sites.google.com/view/adr-rismaf/based" target="_blank" class="bg-blue-100 text-blue-700 px-6 py-2 rounded-xl text-xs font-bold hover-pop">Adab & Resolusi</a>
+        <!-- Horizontal Nav Menu -->
+        <nav class="nav-scroll bg-white px-4 py-3 border-t border-slate-50">
+            <div class="flex gap-3 max-w-6xl mx-auto">
+                <button onclick="showTab('beranda')" class="tab-btn bg-emerald-500 text-white px-6 py-2 rounded-full text-xs font-bold hover-pop shadow-md" data-tab="beranda">BERANDA</button>
+                <button onclick="showTab('profil')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold hover-pop border" data-tab="profil">PROFIL</button>
+                <button onclick="showTab('struktur')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold hover-pop border" data-tab="struktur">STRUKTUR</button>
+                <button onclick="showTab('pengumuman')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold hover-pop border" data-tab="pengumuman">PENGUMUMAN</button>
+                <button onclick="showTab('donasi')" class="tab-btn bg-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold hover-pop border" data-tab="donasi">DONASI & INFAQ</button>
+                <a href="https://drive.google.com/file/d/1mgYQ7bafYWiIDGSYM6Z3bMtnk0p8SdRO/view?usp=drive_link" target="_blank" class="bg-amber-100 text-amber-700 px-6 py-2 rounded-full text-xs font-bold hover-pop">AD/ART</a>
+                <a href="https://sites.google.com/view/adr-rismaf/based" target="_blank" class="bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-xs font-bold hover-pop">ADAB & RESOLUSI</a>
             </div>
         </nav>
     </header>
@@ -138,135 +138,152 @@
 
         <!-- TAB: BERANDA -->
         <div id="beranda" class="tab-content active space-y-12">
-            <!-- Hero Section -->
-            <section class="relative bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[3rem] p-8 md:p-16 text-white overflow-hidden shadow-2xl">
-                <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                    <div class="md:w-1/3 flex justify-center">
-                        <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf" class="w-64 logo-shadow">
-                    </div>
-                    <div class="md:w-2/3 text-center md:text-left">
-                        <div class="inline-block bg-amber-400 text-amber-900 text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 shadow-lg">Periode Dakwah 2026</div>
-                        <h1 class="text-5xl md:text-7xl font-lucu font-bold leading-[0.9] mb-4">MUDA, TAQWA,<br>PENUH KARYA</h1>
-                        <p class="text-base md:text-lg opacity-90 font-medium mb-10 max-w-lg italic">"Wadah kreatifitas dan perjuangan dakwah pemuda-pemudi di lingkungan Masjid Al-Falah Bambu Apus."</p>
-                        <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold text-sm hover-pop shadow-xl">DAFTAR DISINI</a>
+            <!-- Hero Hero -->
+            <section class="relative bg-white rounded-[3.5rem] p-8 md:p-16 overflow-hidden shadow-2xl border border-emerald-50">
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2 text-center md:text-left space-y-6">
+                        <div class="inline-block bg-amber-400 text-amber-950 text-[10px] font-black px-5 py-2 rounded-full uppercase tracking-widest shadow-md">Periode Dakwah 2026</div>
+                        <h2 class="text-5xl md:text-7xl font-lucu font-bold text-slate-800 leading-[0.9]">MUDA, TAQWA,<br><span class="text-emerald-500">PENUH KARYA</span></h2>
+                        <p class="text-sm md:text-lg text-slate-500 font-medium italic">"Wadah kreatifitas dan perjuangan dakwah pemuda-pemudi di lingkungan Masjid Al-Falah Bambu Apus."</p>
+                        
+                        <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
+                            <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="gradient-gold text-white px-10 py-4 rounded-2xl font-bold shadow-xl hover-pop text-sm">DAFTAR DISINI</a>
                             <div class="flex gap-2">
-                                <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="bg-emerald-400/30 p-4 rounded-2xl border border-white/20 hover-pop"><i class="fab fa-instagram text-xl"></i></a>
-                                <a href="https://wa.me/6285183134940" target="_blank" class="bg-emerald-400/30 p-4 rounded-2xl border border-white/20 hover-pop"><i class="fab fa-whatsapp text-xl"></i></a>
-                                <a href="mailto:rismafbambuapus@gmail.com" class="bg-emerald-400/30 p-4 rounded-2xl border border-white/20 hover-pop"><i class="far fa-envelope text-xl"></i></a>
+                                <a href="https://wa.me/6285183134940" target="_blank" class="bg-emerald-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-emerald-100"><i class="fab fa-whatsapp text-xl"></i></a>
+                                <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="bg-rose-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-rose-100"><i class="fab fa-instagram text-xl"></i></a>
+                                <a href="mailto:rismafbambuapus@gmail.com" class="bg-blue-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-blue-100"><i class="far fa-envelope text-xl"></i></a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Circle Decor -->
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-                <div class="absolute -left-10 -top-10 w-40 h-40 bg-amber-300/20 rounded-full blur-2xl"></div>
-            </section>
-
-            <!-- Dokumentasi Section -->
-            <section class="space-y-6">
-                <h2 class="font-lucu font-bold text-2xl text-slate-800">📸 Dokumentasi 2026</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="group relative rounded-3xl overflow-hidden aspect-video shadow-lg">
-                        <img src="https://i.ibb.co.com/BKq3X98G/VR-1447H.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500">
-                        <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold">VR 1447H</div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf" class="w-72 md:w-96 logo-berbayang">
                     </div>
-                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 aspect-video">Dokumentasi 2</div>
-                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 aspect-video">Dokumentasi 3</div>
-                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 aspect-video">Dokumentasi 4</div>
                 </div>
+                <!-- Decorations -->
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-60"></div>
             </section>
 
-            <!-- Visi & Syarat Card -->
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-[3rem] shadow-xl border border-slate-100">
-                    <h3 class="font-lucu font-bold text-emerald-600 text-xl mb-4">Visi Kami</h3>
-                    <p class="text-sm font-medium leading-relaxed text-slate-500 italic">"Terwujudnya generasi muda Masjid Al-Falah yang unggul dalam IMTAQ, cerdas dalam IPTEK, dan aktif menebar manfaat."</p>
+            <!-- Quick Info Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-b-4 border-emerald-500 hover-pop">
+                    <div class="text-3xl mb-4">📜</div>
+                    <h3 class="font-lucu font-bold text-lg mb-2">Visi Kami</h3>
+                    <p class="text-[11px] leading-relaxed text-slate-500">Menjadikan generasi muda Al-Falah unggul dalam IMTAQ, cerdas IPTEK, dan bermanfaat.</p>
                 </div>
-                <div class="bg-amber-50 p-8 rounded-[3rem] shadow-xl border border-amber-100">
-                    <h3 class="font-lucu font-bold text-amber-600 text-xl mb-4">Syarat Anggota</h3>
-                    <ul class="text-[11px] font-bold text-slate-600 space-y-2">
-                        <li>✅ Muslim/Muslimah</li>
-                        <li>✅ Usia 15 - 30 Tahun</li>
-                        <li>✅ Domisili Jakarta Timur (Diutamakan)</li>
-                        <li>✅ Mengisi Formulir Resmi</li>
-                        <li>✅ Mematuhi AD/ART</li>
-                    </ul>
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-b-4 border-amber-400 hover-pop">
+                    <div class="text-3xl mb-4">📅</div>
+                    <h3 class="font-lucu font-bold text-lg mb-2">Kegiatan</h3>
+                    <p class="text-[11px] leading-relaxed text-slate-500">Mulai dari kajian rutin, minisoccer, hingga kegiatan sosial kemasyarakatan.</p>
+                </div>
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-b-4 border-blue-500 hover-pop">
+                    <div class="text-3xl mb-4">🏠</div>
+                    <h3 class="font-lucu font-bold text-lg mb-2">Sejarah</h3>
+                    <p class="text-[11px] leading-relaxed text-slate-500">Berakar dari semangat dakwah pemuda Bambu Apus untuk Masjid Al-Falah.</p>
                 </div>
             </div>
+
+            <!-- Dokumentasi 2026 -->
+            <section class="space-y-6">
+                <div class="flex justify-between items-end">
+                    <h3 class="font-lucu font-bold text-2xl text-slate-800">📸 Dokumentasi 2026</h3>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="group relative rounded-3xl overflow-hidden aspect-square shadow-lg">
+                        <img src="https://i.ibb.co.com/BKq3X98G/VR-1447H.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                            <p class="text-white text-[10px] font-bold text-center">VR 1447H - Kebersamaan Tak Terlupakan</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-[10px] aspect-square">DOKUMENTASI 2</div>
+                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-[10px] aspect-square">DOKUMENTASI 3</div>
+                    <div class="bg-slate-200 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-[10px] aspect-square">DOKUMENTASI 4</div>
+                </div>
+            </section>
         </div>
 
         <!-- TAB: PROFIL -->
         <div id="profil" class="tab-content space-y-12">
-            <div class="text-center max-w-2xl mx-auto space-y-4">
-                <h2 class="font-lucu font-bold text-4xl text-emerald-600">Visi & Misi</h2>
-                <div class="h-1 w-20 bg-amber-400 mx-auto rounded-full"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Misi cards generated from user text -->
-                <div class="bg-white p-6 rounded-3xl shadow-lg border-b-4 border-emerald-500 hover-pop">
-                    <span class="text-3xl mb-4 block">🕌</span>
-                    <h4 class="font-bold text-slate-800 mb-2">Kajian Inovatif</h4>
-                    <p class="text-[11px] text-slate-500">Menyelenggarakan kajian yang relevan dengan problematika remaja masa kini.</p>
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-50 space-y-8">
+                <div class="text-center">
+                    <h2 class="font-lucu font-bold text-4xl text-emerald-600 mb-2">Visi & Misi</h2>
+                    <p class="text-xs font-bold text-slate-400 tracking-widest uppercase">Membangun Karakter Islami Masa Depan</p>
                 </div>
-                <div class="bg-white p-6 rounded-3xl shadow-lg border-b-4 border-blue-500 hover-pop">
-                    <span class="text-3xl mb-4 block">💻</span>
-                    <h4 class="font-bold text-slate-800 mb-2">Literasi Digital</h4>
-                    <p class="text-[11px] text-slate-500">Pemanfaatan teknologi informasi sebagai sarana dakwah positif.</p>
+
+                <div class="bg-emerald-50 p-8 rounded-3xl border-l-8 border-emerald-500">
+                    <h4 class="font-bold text-emerald-700 mb-2">Visi</h4>
+                    <p class="text-sm font-medium text-slate-600 leading-relaxed italic">"Terwujudnya generasi muda Masjid Al-Falah yang unggul dalam IMTAQ (Iman & Taqwa), cerdas dalam IPTEK(Ilmu Pengetahuan & Teknologi), dan aktif dalam menebar manfaat bagi banyak orang"</p>
                 </div>
-                <div class="bg-white p-6 rounded-3xl shadow-lg border-b-4 border-amber-500 hover-pop">
-                    <span class="text-3xl mb-4 block">📈</span>
-                    <h4 class="font-bold text-slate-800 mb-2">Entrepreneurship</h4>
-                    <p class="text-[11px] text-slate-500">Menumbuhkan jiwa mandiri ekonomi melalui unit usaha kreatif.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-amber-600 flex items-center gap-2"><i class="fas fa-bullseye"></i> Misi Kami</h4>
+                        <ul class="text-[11px] text-slate-500 space-y-3">
+                            <li class="flex gap-3"><span>1.</span> Kajian keislaman inovatif & relevan untuk remaja.</li>
+                            <li class="flex gap-3"><span>2.</span> Literasi digital & pemanfaatan teknologi dakwah.</li>
+                            <li class="flex gap-3"><span>3.</span> Jiwa entrepreneurship & unit usaha kreatif.</li>
+                            <li class="flex gap-3"><span>4.</span> Wadah minat olahraga & seni (ukhuwah).</li>
+                            <li class="flex gap-3"><span>5.</span> Gerakan sosial kemanusiaan nyata.</li>
+                            <li class="flex gap-3"><span>6.</span> Mencetak pemimpin berintegritas islami.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 p-6 rounded-3xl">
+                        <h4 class="font-bold text-slate-700 mb-4">Syarat Anggota</h4>
+                        <ul class="text-[11px] font-bold text-slate-500 space-y-2">
+                            <li>✨ Muslim/Muslimah</li>
+                            <li>✨ Berusia 15 - 30 Tahun</li>
+                            <li>✨ Domisili Jaktim & Sekitarnya</li>
+                            <li>✨ Mengisi Formulir Resmi</li>
+                            <li>✨ Patuh AD/ART & Aturan Masjid</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Tambahan Misi lainnya bisa diletakkan di sini -->
-            <div class="bg-emerald-50 p-8 rounded-[3rem] border border-emerald-100">
-                <h4 class="font-lucu font-bold text-emerald-700 mb-4">Sejarah Singkat</h4>
-                <p class="text-sm text-slate-600 leading-relaxed">Remaja Islam Masjid Al-Falah (RISMAF) berdiri sebagai wadah pemuda-pemudi di lingkungan Masjid Besar Al-Falah Bambu Apus untuk berkreasi, belajar, dan berdakwah bersama.</p>
             </div>
         </div>
 
         <!-- TAB: STRUKTUR -->
-        <div id="struktur" class="tab-content overflow-x-auto pb-10">
-            <div class="min-w-[1000px] flex flex-col items-center gap-4">
-                <!-- Level 1: Pembina -->
+        <div id="struktur" class="tab-content overflow-x-auto pb-12">
+            <div class="min-w-[1100px] flex flex-col items-center gap-4">
+                <!-- Level 1 -->
                 <div class="flex gap-4 mb-4">
-                    <div class="org-box bg-slate-100 text-[10px] font-black border-slate-200">PEMBINA IKHWAN</div>
-                    <div class="org-box bg-amber-400 text-amber-950 font-black border-amber-500 shadow-amber-200">DEWAN SYURO</div>
-                    <div class="org-box bg-slate-100 text-[10px] font-black border-slate-200">PEMBINA AKHWAT</div>
+                    <div class="org-card bg-slate-50 border-slate-200">
+                        <span class="text-[8px] font-black text-slate-400 uppercase">Pembina Ikhwan</span>
+                    </div>
+                    <div class="org-card bg-amber-400 text-amber-950 font-black border-amber-500 shadow-amber-200 shadow-lg">
+                        <span class="text-[10px] uppercase">Dewan Syuro</span>
+                    </div>
+                    <div class="org-card bg-slate-50 border-slate-200">
+                        <span class="text-[8px] font-black text-slate-400 uppercase">Pembina Akhwat</span>
+                    </div>
                 </div>
                 
-                <div class="tree-line"></div>
+                <div class="tree-connector"></div>
 
-                <!-- Level 2: Ketua Umum -->
-                <div class="org-box bg-emerald-600 text-white border-emerald-700 w-72 shadow-xl scale-110">
-                    <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                <!-- Level 2: Ketum -->
+                <div class="org-card bg-emerald-600 text-white border-emerald-700 w-80 scale-110 shadow-2xl">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                     <span class="text-[9px] font-black opacity-80 uppercase tracking-widest">Ketua Umum</span>
-                    <p class="font-bold text-lg leading-none mt-1">Ramadhan Rizki</p>
+                    <p class="font-bold text-xl mt-1">Ramadhan Rizki</p>
                 </div>
 
-                <div class="tree-line"></div>
+                <div class="tree-connector"></div>
 
-                <!-- Level 3: Sekjen & Koord -->
+                <!-- Level 3 -->
                 <div class="flex gap-20">
                     <div class="flex flex-col items-center">
-                        <div class="org-box bg-emerald-500 text-white w-60">
-                            <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                        <div class="org-card bg-emerald-500 text-white w-64">
+                            <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                             <span class="text-[9px] font-black opacity-80 uppercase">Sekretaris Jendral</span>
                             <p class="font-bold">Ganendra</p>
                         </div>
-                        <div class="tree-line"></div>
+                        <div class="tree-connector"></div>
                         <div class="flex gap-4">
-                            <div class="org-box border-emerald-200">
-                                <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                            <div class="org-card border-emerald-100">
+                                <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                                 <span class="text-[8px] font-bold text-emerald-500">SEKRETARIS UMUM</span>
                                 <p class="text-xs font-black">Reza</p>
                             </div>
-                            <div class="org-box border-emerald-200">
-                                <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                            <div class="org-card border-emerald-100">
+                                <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                                 <span class="text-[8px] font-bold text-emerald-500">BENDAHARA UMUM</span>
                                 <p class="text-[10px] font-black">Dara & Haya</p>
                             </div>
@@ -274,61 +291,58 @@
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <div class="org-box bg-rose-500 text-white w-60">
-                            <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                        <div class="org-card bg-rose-500 text-white w-64">
+                            <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                             <span class="text-[9px] font-black opacity-80 uppercase">Koordinator Akhwat</span>
                             <p class="font-bold">Wahida</p>
                         </div>
-                        <div class="tree-line"></div>
-                        <div class="org-box border-rose-200">
-                            <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                        <div class="tree-connector"></div>
+                        <div class="org-card border-rose-100">
+                            <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                             <span class="text-[8px] font-bold text-rose-500">WAKIL KOORD AKHWAT</span>
                             <p class="text-xs font-black">Mutiara</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="tree-line"></div>
+                <div class="tree-connector"></div>
 
-                <!-- Level Humas Sejajar Agak Bawah -->
-                <div class="org-box bg-blue-500 text-white w-64">
-                    <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                <!-- Humas & Divisi -->
+                <div class="org-card bg-blue-500 text-white w-72 mb-4">
+                    <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                     <span class="text-[9px] font-black opacity-80 uppercase">Humas</span>
-                    <p class="text-[10px] font-black">Zalfa & Jamhur</p>
+                    <p class="text-[10px] font-black mt-1">Zalfa & Jamhur</p>
                 </div>
 
-                <div class="tree-line"></div>
-
-                <!-- Level Divisi Grid -->
-                <div class="grid grid-cols-6 gap-3 px-10">
-                    <!-- Divisi Cards -->
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                <div class="grid grid-cols-6 gap-3">
+                    <!-- Divisi Grid -->
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Sosial Masyarakat</span>
                         <p class="text-[9px] font-bold mt-1">Faizal & Kalila</p>
                     </div>
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Media Kreatif</span>
                         <p class="text-[9px] font-bold mt-1">Khoirunnisa</p>
                     </div>
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Olahraga</span>
                         <p class="text-[9px] font-bold mt-1">Zahra</p>
                     </div>
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Logistik</span>
                         <p class="text-[9px] font-bold mt-1">Danu</p>
                     </div>
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Siar Dakwah</span>
                         <p class="text-[9px] font-bold mt-1">Rava</p>
                     </div>
-                    <div class="org-box py-3 min-w-[130px]">
-                        <a href="https://wa.me/628558874608" target="_blank" class="wa-btn-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
+                    <div class="org-card min-w-[140px] py-4">
+                        <a href="https://wa.me/628558874608" target="_blank" class="wa-corner hover-pop"><i class="fab fa-whatsapp"></i></a>
                         <span class="text-[7px] font-black text-slate-400 uppercase">Fundraising</span>
                         <p class="text-[9px] font-bold mt-1">Fulan</p>
                     </div>
@@ -338,65 +352,70 @@
 
         <!-- TAB: PENGUMUMAN -->
         <div id="pengumuman" class="tab-content space-y-6">
-            <h2 class="font-lucu font-bold text-3xl text-center text-slate-800">📢 Pengumuman & Jadwal</h2>
+            <h2 class="font-lucu font-bold text-3xl text-center text-slate-800">📌 Pengumuman & Agenda</h2>
             
             <div class="grid md:grid-cols-2 gap-4">
-                <!-- Agenda Items -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between shadow-sm hover:border-emerald-200 transition-all">
+                <!-- Agenda 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-emerald-50 flex items-center justify-between shadow-sm hover-pop">
                     <div>
-                        <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Olahraga</span>
-                        <h4 class="font-bold text-slate-700">Minisoccer Rutin</h4>
-                        <p class="text-xs text-slate-400">Kamis, 20.00 - 22.00</p>
+                        <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Olahraga</span>
+                        <h4 class="font-bold text-slate-700">Minisoccer RISMAF</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Setiap Kamis | 20.00 - 22.00</p>
                     </div>
-                    <button onclick="openModal('Minisoccer', 'Kegiatan rutin sepak bola mini untuk mempererat ukhuwah ikhwan RISMAF. Lokasi: Lapangan Futsal terdekat.')" class="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl text-[10px] font-bold hover-pop">DETAIL</button>
+                    <button onclick="openDetail('Minisoccer', 'Kegiatan olahraga rutin ikhwan untuk menjaga kebugaran dan mempererat ukhuwah antar anggota.')" class="bg-emerald-50 text-emerald-600 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-emerald-500 hover:text-white transition-colors">DETAIL</button>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between shadow-sm hover:border-rose-200 transition-all">
+                <!-- Agenda 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-rose-50 flex items-center justify-between shadow-sm hover-pop">
                     <div>
-                        <span class="text-[10px] font-black text-rose-500 uppercase tracking-widest">Kemuslimatan</span>
+                        <span class="text-[9px] font-black text-rose-500 uppercase tracking-widest">Kemuslimatan</span>
                         <h4 class="font-bold text-slate-700">Halaqoh Akhwat</h4>
-                        <p class="text-xs text-slate-400">Sabtu, 16.00 - 17.30</p>
+                        <p class="text-[11px] text-slate-400 font-medium">Setiap Sabtu | 16.00 - 17.30</p>
                     </div>
-                    <button onclick="openModal('Halaqoh Akhwat', 'Kajian khusus muslimah membahas fiqih wanita dan penguatan spiritualitas diri.')" class="bg-rose-50 text-rose-600 px-4 py-2 rounded-xl text-[10px] font-bold hover-pop">DETAIL</button>
+                    <button onclick="openDetail('Halaqoh Akhwat', 'Kajian khusus akhwat membahas fiqih wanita dan penguatan spiritualitas diri.')" class="bg-rose-50 text-rose-600 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-rose-500 hover:text-white transition-colors">DETAIL</button>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between shadow-sm hover:border-amber-200 transition-all">
+                <!-- Agenda 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-amber-50 flex items-center justify-between shadow-sm hover-pop">
                     <div>
-                        <span class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Kemuslimatan</span>
+                        <span class="text-[9px] font-black text-amber-500 uppercase tracking-widest">Kemuslimatan</span>
                         <h4 class="font-bold text-slate-700">Tahsin Akhwat</h4>
-                        <p class="text-xs text-slate-400">Sabtu, 17.30 - Maghrib</p>
+                        <p class="text-[11px] text-slate-400 font-medium">Setiap Sabtu | 17.30 - Maghrib</p>
                     </div>
-                    <button onclick="openModal('Tahsin Akhwat', 'Belajar memperbaiki bacaan Al-Qur\'an bersama ustadzah pembimbing.')" class="bg-amber-50 text-amber-600 px-4 py-2 rounded-xl text-[10px] font-bold hover-pop">DETAIL</button>
+                    <button onclick="openDetail('Tahsin Akhwat', 'Belajar tahsin untuk memperbaiki bacaan Al-Qur\'an sesuai tajwid yang benar.')" class="bg-amber-50 text-amber-600 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-amber-500 hover:text-white transition-colors">DETAIL</button>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between shadow-sm hover:border-indigo-200 transition-all">
+                <!-- Agenda 4 -->
+                <div class="bg-white p-6 rounded-3xl border border-indigo-50 flex items-center justify-between shadow-sm hover-pop">
                     <div>
-                        <span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Spiritual</span>
+                        <span class="text-[9px] font-black text-indigo-500 uppercase tracking-widest">Spiritual</span>
                         <h4 class="font-bold text-slate-700">Qiyamulail</h4>
-                        <p class="text-xs text-slate-400">Malam Ahad</p>
+                        <p class="text-[11px] text-slate-400 font-medium">Malam Ahad | Rutin</p>
                     </div>
-                    <button onclick="openModal('Qiyamulail', 'Shalat malam berjamaah dan mabit di Masjid Al-Falah.')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-bold hover-pop">DETAIL</button>
+                    <button onclick="openDetail('Qiyamulail', 'Ibadah shalat malam berjamaah, muhasabah, dan mabit bersama anggota RISMAF.')" class="bg-indigo-50 text-indigo-600 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-indigo-500 hover:text-white transition-colors">DETAIL</button>
                 </div>
             </div>
         </div>
 
         <!-- TAB: DONASI -->
         <div id="donasi" class="tab-content">
-            <div class="max-w-md mx-auto bg-white p-10 rounded-[3rem] shadow-2xl border-t-8 border-emerald-500 text-center space-y-6">
-                <div class="bg-emerald-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-4xl shadow-inner mb-4">💰</div>
-                <h3 class="font-lucu font-bold text-2xl text-emerald-700">Infaq & Donasi</h3>
+            <div class="max-w-xl mx-auto bg-white p-10 rounded-[3rem] shadow-2xl border-t-8 border-emerald-500 space-y-8 text-center">
+                <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-4xl mb-4">💰</div>
+                <h3 class="font-lucu font-bold text-3xl text-emerald-800">Lumbung Infaq</h3>
                 
-                <div class="bg-slate-50 p-6 rounded-3xl border-2 border-dashed border-emerald-200">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Bank Syariah Indonesia (BSI)</p>
-                    <p class="text-xl font-lucu font-bold text-slate-800">7777 999 208</p>
+                <div class="bg-slate-50 p-8 rounded-3xl border-2 border-dashed border-emerald-200">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Bank Syariah Indonesia (BSI)</p>
+                    <p class="text-3xl font-lucu font-bold text-slate-800 tracking-wider">7777 999 208</p>
                     <p class="text-xs font-bold text-emerald-600 mt-2">A.n Remaja Islam Masjid Al-Falah</p>
                 </div>
 
-                <p class="text-[10px] text-slate-400 italic">Gunakan kode unik sesuai petunjuk pengurus saat transfer.</p>
+                <div class="bg-amber-50 p-4 rounded-2xl text-[10px] font-bold text-amber-700 italic">
+                    * Mohon tambahkan kode unik sesuai arahan pengurus atau hubungi admin untuk konfirmasi.
+                </div>
 
-                <div class="flex flex-col gap-3">
-                    <a href="https://forms.gle/oYFvntMJjXdVMHep8" target="_blank" class="bg-emerald-600 text-white py-4 rounded-2xl font-bold btn-gold shadow-lg hover-pop text-xs tracking-widest uppercase">Konfirmasi Pembayaran</a>
-                    <a href="https://wa.me/6285183134940" target="_blank" class="bg-slate-800 text-white py-4 rounded-2xl font-bold hover-pop text-xs tracking-widest uppercase">Hubungi Admin</a>
+                <div class="flex flex-col gap-4">
+                    <a href="https://forms.gle/oYFvntMJjXdVMHep8" target="_blank" class="bg-emerald-600 text-white py-4 rounded-2xl font-bold shadow-lg hover-pop text-xs tracking-widest uppercase">KONFIRMASI DONASI</a>
+                    <a href="https://wa.me/6285183134940" target="_blank" class="bg-slate-800 text-white py-4 rounded-2xl font-bold shadow-lg hover-pop text-xs tracking-widest uppercase">HUBUNGI ADMIN</a>
                 </div>
             </div>
         </div>
@@ -404,100 +423,108 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t-4 border-slate-50 mt-20 pt-16 pb-10 px-8">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-            <!-- Lokasi & Info -->
+    <footer class="bg-white border-t-8 border-slate-50 mt-24 pt-16 pb-10 px-8">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+            <!-- Nav Cepat -->
             <div class="space-y-6">
-                <div class="flex items-center gap-3">
-                    <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" class="w-12 h-12">
-                    <h5 class="font-lucu font-bold text-emerald-600 text-2xl leading-none">RISMAF</h5>
-                </div>
-                <div class="text-[10px] font-bold text-slate-400 uppercase leading-relaxed">
-                    <a href="https://maps.app.goo.gl/bmw8xQ4jXtUn8rySA" target="_blank" class="hover:text-emerald-500 block transition-colors">
-                        📍 Jl. Bambu Apus Raya No.55, RT.1/RW.4, Ceger, Jakarta Timur 13890
-                    </a>
-                </div>
-                <div class="flex gap-4">
-                    <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="text-slate-300 hover:text-rose-500 transition-colors text-xl"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/6285183134940" target="_blank" class="text-slate-300 hover:text-emerald-500 transition-colors text-xl"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-
-            <!-- Navigasi Cepat -->
-            <div>
-                <h6 class="text-[11px] font-black text-slate-800 uppercase mb-8 tracking-[0.2em]">Navigasi Cepat</h6>
-                <ul class="text-[10px] font-bold text-slate-400 space-y-4 uppercase tracking-[0.1em]">
-                    <li><button onclick="showTab('profil')" class="hover:text-emerald-500">› Visi & Misi</button></li>
-                    <li><button onclick="showTab('pengumuman')" class="hover:text-emerald-500">› Jadwal Kajian</button></li>
-                    <li><button onclick="showTab('struktur')" class="hover:text-emerald-500">› Kepengurusan</button></li>
-                    <li><button onclick="showTab('beranda')" class="hover:text-emerald-500">› Syarat Anggota</button></li>
+                <h5 class="text-[11px] font-black text-slate-800 uppercase tracking-[0.3em] border-l-4 border-emerald-500 pl-4">Navigasi Cepat</h5>
+                <ul class="text-[10px] font-bold text-slate-400 space-y-4 uppercase">
+                    <li><button onclick="showTab('profil')" class="hover:text-emerald-500 transition-colors">> Visi & Misi</button></li>
+                    <li><button onclick="showTab('pengumuman')" class="hover:text-emerald-500 transition-colors">> Jadwal Kajian</button></li>
+                    <li><button onclick="showTab('struktur')" class="hover:text-emerald-500 transition-colors">> Kepengurusan</button></li>
+                    <li><button onclick="showTab('beranda')" class="hover:text-emerald-500 transition-colors">> Syarat Anggota</button></li>
                 </ul>
             </div>
 
-            <!-- Kontak & Saran -->
+            <!-- Lokasi -->
             <div class="space-y-6">
-                <h6 class="text-[11px] font-black text-slate-800 uppercase mb-4 tracking-[0.2em]">Punya Masukan?</h6>
-                <a href="https://forms.gle/Fk5yVgtxiPqDqAUaA" target="_blank" class="bg-emerald-50 text-emerald-600 text-center py-5 rounded-3xl font-black text-xs hover-pop border border-emerald-100 flex items-center justify-center gap-3 uppercase tracking-widest">
-                    <span>📫</span> Kotak Saran Online
+                <h5 class="text-[11px] font-black text-slate-800 uppercase tracking-[0.3em] border-l-4 border-emerald-500 pl-4">Lokasi & Kontak</h5>
+                <div class="text-[10px] font-bold text-slate-400 space-y-4">
+                    <a href="https://maps.app.goo.gl/bmw8xQ4jXtUn8rySA" target="_blank" class="flex gap-3 hover:text-emerald-500 transition-colors leading-relaxed">
+                        <i class="fas fa-map-marker-alt text-emerald-500 text-sm"></i>
+                        <span>Jl. Bambu Apus Raya No.55, RT.1/RW.4, Ceger, Jakarta Timur 13890</span>
+                    </a>
+                    <a href="https://masjid-alfalah.id" target="_blank" class="flex items-center gap-3 hover:text-blue-500 transition-colors">
+                        <i class="fas fa-globe text-blue-500"></i> masjid-alfalah.id
+                    </a>
+                    <a href="https://instagram.com/alfalah_bambuapus" target="_blank" class="flex items-center gap-3 hover:text-rose-500 transition-colors">
+                        <i class="fab fa-instagram text-rose-500"></i> alfalah_bambuapus
+                    </a>
+                    <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="flex items-center gap-3 hover:text-emerald-500 transition-colors">
+                        <i class="fab fa-instagram text-emerald-500"></i> rismaf_bambuapus
+                    </a>
+                    <a href="https://wa.me/6285183134940" target="_blank" class="flex items-center gap-3 hover:text-emerald-500 transition-colors">
+                        <i class="fab fa-whatsapp text-emerald-500"></i> Admin RISMAF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Saran -->
+            <div class="space-y-6">
+                <h5 class="text-[11px] font-black text-slate-800 uppercase tracking-[0.3em] border-l-4 border-emerald-500 pl-4">Kotak Saran</h5>
+                <p class="text-[10px] text-slate-400 font-medium">Bantu kami menjadi lebih baik dengan memberikan masukan berharga.</p>
+                <a href="https://forms.gle/Fk5yVgtxiPqDqAUaA" target="_blank" class="block bg-emerald-50 text-emerald-600 text-center py-4 rounded-2xl font-black text-[10px] border border-emerald-100 hover-pop uppercase tracking-widest">
+                    Isi Kotak Saran
                 </a>
-                <p class="text-[9px] text-slate-300 text-center uppercase font-bold tracking-widest">© 2026 RISMAF - BAMBU APUS</p>
+                <div class="pt-8 text-center md:text-left">
+                    <img src="https://i.ibb.co.com/0jzJWWD4/Al-Falah.png" alt="Al Falah" class="w-16 grayscale opacity-30 inline-block">
+                    <p class="text-[8px] text-slate-300 font-black mt-2 uppercase tracking-[0.2em]">© 2026 RISMAF - BAMBU APUS</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Modal Detail Pengumuman -->
+    <!-- Detail Modal -->
     <div id="modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()">
-        <div class="bg-white p-8 rounded-[3rem] max-w-sm w-full shadow-2xl relative border-b-8 border-emerald-500" onclick="event.stopPropagation()">
-            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center text-3xl mx-auto -mt-16 shadow-xl mb-6 border-4 border-white">📢</div>
-            <h3 id="modal-title" class="font-lucu font-bold text-2xl text-emerald-700 text-center mb-4 uppercase">Judul</h3>
-            <p id="modal-desc" class="text-xs text-slate-500 text-center leading-relaxed font-medium mb-6"></p>
+        <div class="bg-white p-8 rounded-[3rem] max-w-sm w-full shadow-2xl relative border-b-8 border-emerald-500 animate-slide-up" onclick="event.stopPropagation()">
+            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center text-3xl mx-auto -mt-16 shadow-xl mb-6 border-4 border-white">ℹ️</div>
+            <h3 id="modal-title" class="font-lucu font-bold text-2xl text-emerald-700 text-center mb-4 uppercase">Info Detail</h3>
+            <p id="modal-desc" class="text-xs text-slate-500 text-center leading-relaxed font-medium mb-8"></p>
             <button onclick="closeModal()" class="w-full bg-emerald-500 text-white py-4 rounded-2xl font-bold hover-pop shadow-lg text-xs uppercase tracking-widest">Tutup</button>
         </div>
     </div>
 
     <script>
-        // Update Waktu & Tanggal Real-time (2026 Fokus)
-        function updateTime() {
+        // Real-time Clock 2026
+        function updateClock() {
             const now = new Date();
-            // Menyesuaikan tahun agar tetap di 2026 sesuai periode dakwah user
             const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
             const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
             
             const dayName = days[now.getDay()];
             const date = now.getDate();
             const monthName = months[now.getMonth()];
-            const hour = String(now.getHours()).padStart(2, '0');
-            const minute = String(now.getMinutes()).padStart(2, '0');
-            const second = String(now.getSeconds()).padStart(2, '0');
+            const year = 2026; // Fixed 2026 sesuai instruksi
             
-            document.getElementById('clock').innerHTML = `<i class="far fa-clock mr-2"></i>${dayName}, ${date} ${monthName} 2026 | ${hour}:${minute}:${second}`;
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('realtime-clock').innerHTML = 
+                `<i class="far fa-calendar-alt mr-2"></i>${dayName}, ${date} ${monthName} ${year} | <i class="far fa-clock ml-2 mr-1"></i>${h}:${m}:${s}`;
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // Sistem Tab
+        // Navigation Tab System
         function showTab(tabId) {
-            // Sembunyikan semua tab
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-emerald-500', 'text-white', 'shadow-md');
                 btn.classList.add('bg-white', 'text-slate-500', 'border');
             });
 
-            // Tampilkan tab aktif
             document.getElementById(tabId).classList.add('active');
             const activeBtn = document.querySelector(`button[data-tab="${tabId}"]`);
             if(activeBtn) {
                 activeBtn.classList.add('bg-emerald-500', 'text-white', 'shadow-md');
                 activeBtn.classList.remove('bg-white', 'text-slate-500', 'border');
             }
-
-            // Scroll ke atas otomatis
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Modal Logic
-        function openModal(title, desc) {
+        function openDetail(title, desc) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-desc').innerText = desc;
             document.getElementById('modal').style.display = 'flex';
