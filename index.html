@@ -139,27 +139,31 @@
 
     <main>
         <!-- PAGE: BERANDA -->
-        <section id="beranda" class="page-section active">
-            <div class="banner-bg p-8 md:p-20 text-center relative">
-                <div class="max-w-4xl mx-auto">
-                    <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf Logo" class="w-32 md:w-44 mx-auto mb-6 logo-shadow hover-pop">
-                    <p class="text-yellow-600 font-black text-sm uppercase tracking-widest mb-2" style="color: #b8860b;">Periode Dakwah 2026</p>
-                    <h2 class="font-lucu text-4xl md:text-7xl font-bold text-emerald-900 mb-4 leading-tight">
-                        MUDA, TAQWA,<br>PENUH KARYA
-                    </h2>
-                    <p class="text-emerald-800 text-lg md:text-xl font-medium mb-10 italic">
-                        "Wadah kreatifitas dan perjuangan dakwah pemuda-pemudi di lingkungan Masjid Al-Falah Bambu Apus."
-                    </p>
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                        <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="bg-emerald-600 text-white px-10 py-4 rounded-3xl font-black text-xl shadow-xl hover-pop">DAFTAR DISINI</a>
-                        <div class="flex gap-3">
-                            <a href="https://wa.me/6285183134940" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-emerald-500 shadow-lg hover-pop border-2 border-emerald-50"><i class="fab fa-whatsapp text-2xl"></i></a>
-                            <a href="https://instagram.com/rismaf_bambuapus" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-pink-500 shadow-lg hover-pop border-2 border-pink-50"><i class="fab fa-instagram text-2xl"></i></a>
-                            <a href="mailto:rismafbambuapus@gmail.com" class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-blue-400 shadow-lg hover-pop border-2 border-blue-50"><i class="fas fa-envelope text-2xl"></i></a>
+        <div id="beranda" class="tab-content active space-y-12">
+            <!-- Hero Hero -->
+            <section class="relative bg-white rounded-[3.5rem] p-8 md:p-16 overflow-hidden shadow-2xl border border-emerald-50">
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2 text-center md:text-left space-y-6">
+                        <div class="inline-block bg-amber-400 text-amber-950 text-[10px] font-black px-5 py-2 rounded-full uppercase tracking-widest shadow-md">Periode Dakwah 2026</div>
+                        <h2 class="text-5xl md:text-7xl font-lucu font-bold text-slate-800 leading-[0.9]">MUDA, TAQWA,<br><span class="text-emerald-500">PENUH KARYA</span></h2>
+                        <p class="text-sm md:text-lg text-slate-500 font-medium italic">"Wadah kreatifitas dan perjuangan dakwah pemuda-pemudi di lingkungan Masjid Al-Falah Bambu Apus."</p>
+                        
+                        <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
+                            <a href="https://forms.gle/xNQKqfauwDb5sWPZ9" target="_blank" class="gradient-gold text-white px-10 py-4 rounded-2xl font-bold shadow-xl hover-pop text-sm">DAFTAR DISINI</a>
+                            <div class="flex gap-2">
+                                <a href="https://wa.me/6285183134940" target="_blank" class="bg-emerald-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-emerald-100"><i class="fab fa-whatsapp text-xl"></i></a>
+                                <a href="https://instagram.com/rismaf_bambuapus" target="_blank" class="bg-rose-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-rose-100"><i class="fab fa-instagram text-xl"></i></a>
+                                <a href="mailto:rismafbambuapus@gmail.com" class="bg-blue-500 text-white p-4 rounded-2xl hover-pop shadow-lg shadow-blue-100"><i class="far fa-envelope text-xl"></i></a>
+                            </div>
                         </div>
                     </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <img src="https://i.ibb.co.com/chPbMWcf/Rismaf.png" alt="Rismaf" class="w-72 md:w-96 logo-berbayang">
+                    </div>
                 </div>
-            </div>
+                <!-- Decorations -->
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-60"></div>
+            </section>
 
             <!-- DOKUMENTASI 2x2 -->
             <div class="max-w-6xl mx-auto p-8">
